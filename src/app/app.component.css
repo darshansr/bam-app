@@ -1,0 +1,48 @@
+.navbar {
+    padding: 0;
+    background-color: white;
+}
+
+.dropdown-menu {
+    left: 215px;
+    min-width:12rem
+}
+
+.navbar-nav>a {
+    padding-left: 5.0rem;
+    text-indent: -22%;
+}
+.list-div{
+    padding-left: 20rem;
+}
+.navbar-light {
+    color: yellow
+}
+
+.project-menu {
+    background-color: orange;
+    width: fix;
+    border: 1px solid white;
+    padding: 5px;
+    margin: 2px;
+    color: orange;
+}
+
+.navbar-brand {
+    margin-right: 9rem
+}
+
+.navbar-nav a:hover {
+    border-bottom: 3px solid rgb(47, 171, 74)
+}
+
+.navbar-nav a.active {
+    border-bottom: 3px solid rgb(47, 171, 74);
+}
+
+.title>a::first-letter {
+    color: rgb(47, 171, 74);
+}
+.list-group-item{
+    border:0
+}
