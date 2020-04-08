@@ -14,16 +14,18 @@
           Project Menu
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">item 1</a>
+          <a class="dropdown-item" routerLink="/projectmenu" routerLinkActive="active">item 1</a>
           <a class="dropdown-item" href="#">item 2</a>
           <a class="dropdown-item" href="#">item 3</a>
         </div>
-        <a href="#" class="nav-item nav-link text-success">Emmen-48 won DSV</a>
+        <a routerLink="/emmen" routerLinkActive="active" class="nav-item nav-link text-success">Emmen-48 won DSV</a>
       </div>
       <div class="navbar-nav list-div">
-        <li class="list-group-item"><img src="../assets/setting.svg"></li>
-        <li class="list-group-item"><img src="../assets/power.svg"></li>
+        <li class="list-group-item"><img src="../assets/setting.svg" routerLink="/setting" routerLinkActive="active"></li>
+        <li class="list-group-item"><img src="../assets/power.svg" routerLink="/login" routerLinkActive="active"></li>
       </div>
     </div>
   </nav>
 </div>
+
+<router-outlet></router-outlet>
