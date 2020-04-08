@@ -1,5 +1,5 @@
-<div class="container">
-  <nav class="navbar navbar-expand-md navbar-light title" style="background-color:white;">
+<nav class="navbar navbar-expand-md navbar-light title" style="background-color:white;">
+  <div class="container">
     <a href="#" class="navbar-brand ">
       b.Home
     </a>
@@ -9,8 +9,8 @@
 
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav">
-        <a class="nav-link dropdown-toggle project-menu" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle project-menu" href="#" id="navbarDropdownMenuLink" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Project Menu
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -21,11 +21,12 @@
         <a routerLink="/emmen" routerLinkActive="active" class="nav-item nav-link text-success">Emmen-48 won DSV</a>
       </div>
       <div class="navbar-nav list-div">
-        <li class="list-group-item"><img src="../assets/setting.svg" routerLink="/setting" routerLinkActive="active"></li>
+        <li class="list-group-item"><img src="../assets/setting.svg" routerLink="/setting" routerLinkActive="active">
+        </li>
         <li class="list-group-item"><img src="../assets/power.svg" routerLink="/login" routerLinkActive="active"></li>
       </div>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>
 
 <router-outlet></router-outlet>
