@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <!-- Example row of columns -->
-    <div class="row row-planning">
+    <div class="row row-planning" *ngFor="let val of appointment">
         <div class="col-lg-3 col-md-3 ">
             <h3>Planning:</h3>
         </div>
@@ -9,139 +9,14 @@
         </div>
         <div class="col-lg-6 col-md-3 ">
             <div class="row">
-                <div class="col">{{today}} van {{startTime}} tot {{endTime}}<img src="../../assets/pencil-icon.svg" (click)="open(mymodal)">
+                <div class="col">{{val.dateProperty.planDate }} van {{val.dateProperty.startTime}} uur tot
+                    {{val.dateProperty.endTime}} uur <img src="../../assets/pencil-icon.svg" (click)="open(val.id)">
                 </div>
-                <div class="col"> <img src="../../assets/bell-icon.svg"> bericht verstuurd</div>
+                <div class="col"> <img src="../../assets/bell-icon.svg"
+                        [ngStyle]="{'background-color':val.dateProperty.planDate > moment().format('DD-MM-YYYY')  ? 'green' : 'grey' }">
+                    bericht verstuurd</div>
             </div>
         </div>
+        <br>
     </div>
 </div>
-<ng-template #mymodal let-modal btn-ml>
-    <div class="modal-header bg-success">
-        <label class="label-value">Plannen voorschouw </label>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form>
-            <fieldset>
-                <label>Planning</label>
-                <div class="row row-date">
-                    <div class="col-md-2 ">
-                        <label style="
-                        margin-top: 5px;">Datum:</label>
-                    </div>
-                    <div class="col-md-3 ">
-                        <input class="input-res" type="text">
-                    </div>
-                    <div class="col-md-1 bg-success">
-                        <img src="../../assets/calendar-icon.svg">
-                    </div>
-                    <div class="col-md-6 ">
-                        <p>Plan een datum en tijdstip wanneer de bewoner zijn woning kan voorschouwen.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 ">
-                        <label style="
-                        margin-top: 25px;">Tijdstip:</label>
-                    </div>
-                    <div class="col-md-4 table-responsive-md ">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <img (click)="setTime($event)" id='van-inc-hour' style="margin-left: 8px"
-                                            tabindex="-1" title="Increment Hour" src="../../assets/up-arrow-icon.svg">
-                                    </td>
-                                    <td></td>
-                                    <td><img (click)="setTime($event)" id='van-inc-min' style="margin-left: 8px"
-                                            tabindex="-1" title="Increment Minutes"
-                                            src="../../assets/up-arrow-icon.svg">
-                                    </td>
-                                    <td></td>
-                                    <td>
-                                        <img (click)="setTime($event)" id='tot-inc-hour' style="margin-left: 8px"
-                                            tabindex="-1" title="Increment Hour" src="../../assets/up-arrow-icon.svg">
-                                    </td>
-                                    <td></td>
-                                    <td><img (click)="setTime($event)" id='tot-inc-min' style="margin-left: 8px"
-                                            tabindex="-1" title="Increment Minutes"
-                                            src="../../assets/up-arrow-icon.svg">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="
-                                    padding-right: 5px;">van:</td>
-                                    <td>
-                                        <input id="van-hour" type="text" class="input-tip " value="{{vanhours}}">
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <input id="van-min" type="text" class="input-tip" value="{{vanminutes}}">
-                                    </td>
-
-                                    <td style="padding-left:25px;
-                                    padding-right: 5px;">tot:</td>
-                                    <td>
-                                        <input id="tot-hour" type="text" class="input-tip" value="{{tothours}}">
-                                    </td>
-                                    <td>:</td>
-                                    <td>
-                                        <input id="tot-min" type="text" class="input-tip" value="{{totminutes}}">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <img (click)="setTime($event)" id='van-dec-hour' style="margin-left: 8px"
-                                            tabindex="-1" title="decrement Hour" src="../../assets/down-arrow-icon.svg">
-                                    </td>
-                                    <td></td>
-                                    <td><img (click)="setTime($event)" id='van-dec-min' style="margin-left: 8px"
-                                            tabindex="-1" title="decrement Minutes"
-                                            src="../../assets/down-arrow-icon.svg">
-                                    </td>
-
-                                    <td></td>
-                                    <td>
-                                        <img (click)="setTime($event)" id='tot-dec-hour' style="margin-left: 8px"
-                                            tabindex="-1" title="decrement Hour" src="../../assets/down-arrow-icon.svg">
-                                    </td>
-                                    <td></td>
-                                    <td><img (click)="setTime($event)" id='tot-dec-min' style="margin-left: 8px"
-                                            tabindex="-1" title="decrement Minutes"
-                                            src="../../assets/down-arrow-icon.svg">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-md-6 "></div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <br>
-                <label> Bericht aan bewoner </label>
-                <div class="row">
-                    <div class="col-md-6 jumbotron">
-
-                        <h1>Bootstrap Tutorial</h1>
-                        <p>Bootstrap is the most popular HTML, CSS...</p>
-
-                    </div>
-                    <div class="col-md-6">
-                        <p> Stuur de bewoner een uitnodiging om zelf de voorschouw uit te voeren. </p>
-                    </div>
-                </div>
-            </fieldset>
-
-        </form>
-    </div>
-
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
-    </div>
-</ng-template>

@@ -1,0 +1,50 @@
+.row-planning {
+    margin-left: 16px;
+    margin-right: 12px;
+}
+
+.container-fluid {
+    padding-top: 30px;
+}
+
+.row-date {
+    margin-left: -15px;
+}
+
+.label-value {
+    color: white;
+    font-size: large;
+    margin-bottom: 0rem
+}
+
+.close {
+    color: white !important;
+    opacity: 1 !important
+}
+
+.input-tip {
+    width: 35px;
+    text-align: center
+}
+
+.input-date {
+    width: 35px;
+}
+
+.separator {
+    padding-left: 37px;
+}
+
+.input-res
+{    
+     width: 100%;
+     max-width: 500px;
+     box-sizing: border-box;
+   
+}
+@media screen and (max-width: 1200px)  {
+    .modal-lg {
+        width: 100% !important;
+        max-width: calc(100%);
+    }
+}

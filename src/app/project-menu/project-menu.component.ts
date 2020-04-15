@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalPlanComponent } from '../modal-plan/modal-plan.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-project-menu',
@@ -7,8 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./project-menu.component.css']
 })
 export class ProjectMenuComponent implements OnInit {
+  closeResult: string;
 
-  constructor(private router: Router) { }
+  constructor(private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -16,4 +19,10 @@ export class ProjectMenuComponent implements OnInit {
   goPlanning() {
     this.router.navigate(['/', 'emmen']);
   }
+
+  open(type: string) {
+    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'lg' })
+    modalRef.componentInstance.type = type;
+  }
+
 }

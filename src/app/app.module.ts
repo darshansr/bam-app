@@ -1,15 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { EmmenWonDsvComponent } from './emmen-won-dsv/emmen-won-dsv.component';
 import { ProjectMenuComponent } from './project-menu/project-menu.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ModalPlanComponent } from './emmen-won-dsv/modal-plan/modal-plan.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalPlanComponent } from './modal-plan/modal-plan.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppointmentService } from './appointment.service';
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientModule }    from '@angular/common/http';
+import { SharedService } from './shared-service';
+
 
 const appRoutes: Routes = [
   { path: 'projectmenu', component: ProjectMenuComponent },
@@ -24,20 +29,24 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ModalPlanComponent
+    ModalPlanComponent,
+    EmmenWonDsvComponent, ProjectMenuComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FlexLayoutModule,
     BrowserAnimationsModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [],
+  providers: [AppointmentService, DatePipe,HttpClient,SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

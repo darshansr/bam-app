@@ -1,0 +1,137 @@
+<div class="modal-header bg-success">
+  <label class="label-value">Plannen voorschouw </label>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="appform" (ngSubmit)="onSubmit(appform.value)">
+      <fieldset>
+          <label>Planning</label>
+          <div class="row row-date">
+              <div class="col-md-2 ">
+                  <label style="
+                margin-top: 5px;">Datum:</label>
+              </div>
+              <div class="col-md-3 ">
+                  <input class="input-res" id="date" formControlName="appointmentDate" ngbDatepicker #d="ngbDatepicker">
+              </div>
+              <div class="col-md-1">
+                  <img src="../../assets/calendar-icon.svg" class="calendar" (click)="d.toggle()">
+              </div>
+              <div class="col-md-6 ">
+                  <p>Plan een datum en tijdstip wanneer de bewoner zijn woning kan voorschouwen.</p>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-2 bg-success ">
+                  <label style="
+                margin-top: 25px;">Tijdstip:</label>
+              </div>
+              <div class="col-md-4 bg-warning">
+                  <table>
+                      <tbody>
+                          <tr>
+                              <td></td>
+                              <td>
+                                  <img (click)="setTime($event)" id='van-hour-inc' style="margin-left: 8px" title="Increment Hour" src="../../assets/up-arrow-icon.svg">
+                              </td>
+                              <td></td>
+                              <td><img (click)="setTime($event)" id='van-min-inc' style="margin-left: 8px" title="Increment Minutes" src="../../assets/up-arrow-icon.svg">
+                              </td>
+                              <td></td>
+                              <td>
+                                  <img (click)="setTime($event)" id='tot-hour-inc' style="margin-left: 8px" title="Increment Hour" src="../../assets/up-arrow-icon.svg">
+                              </td>
+                              <td></td>
+                              <td><img (click)="setTime($event)" id='tot-min-inc' style="margin-left: 8px" title="Increment Minutes" src="../../assets/up-arrow-icon.svg">
+                              </td>
+                          </tr>
+                          <tr>
+                              <td style="
+                            padding-right: 5px;">van:</td>
+                              <td>
+                                  <input style="
+                width: 35px;
+            text-align: center;" type="number" step="1" min="9" max="17" id="van-hour" class="input-tip" formControlName="vanHH">
+                              </td>
+                              <td>:</td>
+                              <td>
+                                  <input style="
+                width: 35px;
+                text-align: center;" type="number" step="15" min="1" max="60" id="van-min" class="input-tip" formControlName="vanMM">
+                              </td>
+
+                              <td style="padding-left:25px;
+                            padding-right: 5px;">tot:</td>
+                              <td>
+                                  <input style="
+                width: 35px;
+                text-align: center;" type="number" step="1" min="10" max="18" id="tot-hour" class="input-tip" formControlName="totHH">
+                              </td>
+                              <td>:</td>
+                              <td>
+                                  <input style="
+                width: 35px;
+                text-align: center;" type="number" step="15" min="1" max="60" id="tot-min" class="input-tip" formControlName="totMM">
+                              </td>
+                          </tr>
+
+                          <tr>
+                              <td></td>
+                              <td>
+                                  <img (click)="setTime($event)" id='van-hour-dec' style="margin-left: 8px" tabindex="-1" title="decrement Hour" src="../../assets/down-arrow-icon.svg">
+                              </td>
+                              <td></td>
+                              <td><img (click)="setTime($event)" id='van-min-dec' style="margin-left: 8px" tabindex="-1" title="decrement Minutes" src="../../assets/down-arrow-icon.svg">
+                              </td>
+
+                              <td></td>
+                              <td>
+                                  <img (click)="setTime($event)" id='tot-hour-dec' style="margin-left: 8px" tabindex="-1" title="decrement Hour" src="../../assets/down-arrow-icon.svg">
+                              </td>
+                              <td></td>
+                              <td><img (click)="setTime($event)" id='tot-min-dec' style="margin-left: 8px" tabindex="-1" title="decrement Minutes" src="../../assets/down-arrow-icon.svg">
+                              </td>
+                          </tr>
+                          <tr *ngIf="appform.get('vanHH').errors &&
+                        appform.get('vanHH').dirty &&
+                        appform.get('vanHH').errors.validLname"><span style="color:red">endTime must be greater than
+                startTime </span></tr>
+                          <tr *ngIf="appform.get('totHH').errors &&
+                        appform.get('totHH').dirty &&
+                        appform.get('totHH').errors.validLname"><span style="color:red">endTime must be greater than
+                startTime </span></tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col-md-6 "></div>
+          </div>
+      </fieldset>
+      <fieldset>
+          <br>
+          <label> Bericht aan bewoner </label>
+          <div class="row">
+              <div class="col-md-6 jumbotron">
+
+                  <h1>Message to Resident when to visit House for inspection </h1>
+                  <p></p>
+
+                  <input type="number" placeholder="phone number one" id="phoneOne" class="input-res" formControlName="phoneOne">
+                  <br>
+                  <input type="checkbox" formControlName="notificationOne" />
+                  <br>
+
+                  <input type="number" placeholder="phone number two" id="phoneTwo" class="input-res" formControlName="phoneTwo">
+                  <br>
+
+                  <input type="checkbox" formControlName="notificationTwo" />
+              </div>
+              <div class="col-md-6">
+                  <p> Stuur de bewoner een uitnodiging om zelf de voorschouw uit te voeren. </p>
+              </div>
+          </div>
+      </fieldset>
+      <button type="submit">Submit</button>
+  </form>
+</div>
