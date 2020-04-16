@@ -1,22 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-weight: 550 !important  }
-img{
-
-    cursor: pointer;
+html, body {
+    height: 100%;
 }
-h3{
+
+body {
+    margin: 0;
     font-weight: 550 !important
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+img {
+    cursor: pointer;
+}
+
+h3 {
+    font-weight: 550 !important
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+    -moz-appearance: textfield;
+    /* Firefox */
 }
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948;
+    /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442;
+    /* red */
+}
+.row-planning {
+    margin-left: 16px;
+    margin-right: 12px;
+}
+
+.container-fluid {
+    padding-top: 30px;
+}
+
+.row-date {
+    margin-left: -15px;
+}
+
+.label-value {
+    color: white;
+    font-size: large;
+    margin-bottom: 0rem
+}
+
+.close {
+    color: white !important;
+    opacity: 1 !important
+}
+
+.input-tip {
+    width: 35px;
+    text-align: center
+}
+
+.input-date {
+    width: 35px;
+}
+
+.separator {
+    padding-left: 37px;
+}
+
+.input-res
+{    
+     width: 100%;
+     max-width: 500px;
+     box-sizing: border-box;
+   
+}
+@media screen and (max-width: 1200px)  {
+    .modal-xl {
+        width: 100% !important;
+        max-width: calc(100%);
+    }
+}
+

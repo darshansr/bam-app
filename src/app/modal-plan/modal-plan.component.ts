@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppointmentService } from '../appointment.service';
 import { v1 as uuidv1 } from 'uuid';
 import * as moment from 'moment';
@@ -19,7 +19,7 @@ export class ModalPlanComponent {
   appform: FormGroup;
   formBind: {};
   modalData: any;
-
+  today =new Date();
   constructor(public activeModal: NgbActiveModal, private modalService: NgbModal,private formBuilder: FormBuilder, private appService: AppointmentService, private momentService: MomentPipe) {
     for (let h = 0; h < 24; h++) {
       this.hourList.push(h);
@@ -32,15 +32,15 @@ export class ModalPlanComponent {
   ngOnInit(): void {
     this.appform = this.formBuilder.group({
       id: [''],
-      appointmentDate: [moment().format('DD-MM-YYYY')],
+      appointmentDate: [moment().format('DD-MM-YYYY'),Validators.required],
       vanHH: [moment().format('HH'), Validators.required],
       vanMM: [moment().format('mm'), Validators.required],
       totHH: [moment().format('HH'), Validators.required],
       totMM: [moment().format('mm'), Validators.required],
-      phoneOne: [''],
+      phoneOne: ['', Validators.required],
       phoneTwo: [''],
-      notificationOne: [true],
-      notificationTwo: [true]
+      notificationOne: [true,Validators.required],
+      notificationTwo: [false]
     });
 
     if (this.type !== 'create') {
@@ -49,6 +49,16 @@ export class ModalPlanComponent {
       });
     }
   }
+  // dateValidator(format){
+  //   console.log('format');
+  //   return (control: FormControl): { [key: string]: any } => {
+  //     const val = moment(control.value, format);
+  //     if (!val.isValid()) {
+  //       return { invalidDate: true };
+  //     }
+  //     return null;
+  //   };
+  // }
 
   createFormData=(data)=> {
     let appointmentDate=this.momentService.transform(data.startTime,'DD-MM-YYYY')

@@ -9,27 +9,38 @@
     <fieldset>
       <label>Planning</label>
       <div class="row">
-        <div class="col-md-2 ">
+        <div class="col-md-1 ">
           <label style="
                 margin-top: 5px;">Datum:</label>
         </div>
-        <div class="col-md-3 ">
-          <input class="input-res form-group" id="date" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="appointmentDate"
-          [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+        <div class="col-md-4">
+          <input class="input-res form-control" name="date" id="date" #datepickerYMD="bsDatepicker" required
+            bsDatepicker formControlName="appointmentDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+            [daysDisabled]="[6,0]" [minDate]="today">
+
+          <div
+            *ngIf="appform.controls['appointmentDate'].invalid && (appform.controls['appointmentDate'].dirty || appform.controls['appointmentDate'].touched)"
+            class="alert">
+            <div *ngIf="appform.controls['appointmentDate'].errors.required">
+              Date is required
+            </div>
+          </div>
+
         </div>
         <div class="col-md-1">
-          <img src="../../assets/calendar-icon.svg" class="calendar" (click)="datepickerYMD.toggle()" [attr.aria-expanded]="datepickerYMD.isOpen">
+          <img src="../../assets/calendar-icon.svg" class="calendar" (click)="datepickerYMD.toggle()"
+            [attr.aria-expanded]="datepickerYMD.isOpen">
         </div>
-        <div class="col-md-6 ">
+        <div class="col-md-6">
           <p>Plan een datum en tijdstip wanneer de bewoner zijn woning kan voorschouwen.</p>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-2 bg-success ">
+        <div class="col-md-1">
           <label style="
                 margin-top: 25px;">Tijdstip:</label>
         </div>
-        <div class="col-md-4 bg-warning">
+        <div class="col-md-5">
           <table>
             <tbody>
               <tr>
@@ -58,15 +69,13 @@
                 <td>
                   <input style="
                 width: 35px;
-            text-align: center;" type="number" step="1" min="9" max="17" id="van-hour" class="input-tip"
-                    formControlName="vanHH">
+            text-align: center;" type="number" id="van-hour" class="input-tip" formControlName="vanHH">
                 </td>
                 <td>:</td>
                 <td>
                   <input style="
                 width: 35px;
-                text-align: center;" type="number" step="15" min="1" max="60" id="van-min" class="input-tip"
-                    formControlName="vanMM">
+                text-align: center;" type="number" id="van-min" class="input-tip" formControlName="vanMM">
                 </td>
 
                 <td style="padding-left:25px;
@@ -74,15 +83,13 @@
                 <td>
                   <input style="
                 width: 35px;
-                text-align: center;" type="number" step="1" min="10" max="18" id="tot-hour" class="input-tip"
-                    formControlName="totHH">
+                text-align: center;" type="number" id="tot-hour" class="input-tip" formControlName="totHH">
                 </td>
                 <td>:</td>
                 <td>
                   <input style="
                 width: 35px;
-                text-align: center;" type="number" step="15" min="1" max="60" id="tot-min" class="input-tip"
-                    formControlName="totMM">
+                text-align: center;" type="number" id="tot-min" class="input-tip" formControlName="totMM">
                 </td>
               </tr>
 
@@ -107,18 +114,18 @@
                     title="decrement Minutes" src="../../assets/down-arrow-icon.svg">
                 </td>
               </tr>
-              <tr *ngIf="appform.get('vanHH').errors &&
+              <!-- <tr *ngIf="appform.get('vanHH').errors &&
                         appform.get('vanHH').dirty &&
                         appform.get('vanHH').errors.validLname"><span style="color:red">endTime must be greater than
                   startTime </span></tr>
               <tr *ngIf="appform.get('totHH').errors &&
                         appform.get('totHH').dirty &&
                         appform.get('totHH').errors.validLname"><span style="color:red">endTime must be greater than
-                  startTime </span></tr>
+                  startTime </span></tr> -->
             </tbody>
           </table>
         </div>
-        <div class="col-md-6 "></div>
+        <div class="col-md-6"></div>
       </div>
     </fieldset>
     <fieldset>
@@ -128,7 +135,8 @@
         <div class="col-md-6 jumbotron">
           <p>Goedendag Peter de Vries,</p>
           <p>De werkzaamheden in uw woning zijn bijna afgerond.
-            Wij willen u vragen op {{appform.get("appointmentDate").value | moment:'DD-MM-YYYY'}} van {{appform.get("vanHH").value}}:{{appform.get("vanMM").value}} tot
+            Wij willen u vragen op {{appform.get("appointmentDate").value | moment:'DD-MM-YYYY'}} van
+            {{appform.get("vanHH").value}}:{{appform.get("vanMM").value}} tot
             {{appform.get("totHH").value}}:{{appform.get("totMM").value}} in
             de woning te controleren of alles naar tevredenheid is uitgevoerd.</p>
           <p> Tijdens de afspraak kunt u in de woning onze
@@ -141,22 +149,38 @@
           <p>Met vriendelijke groet, uw uitvoerder</p>
           <p>Verstuur het Bericht naar.
             Ja, elk nummer is van een bewoner van dit adres.</p>
-          <input type="number" placeholder="phone number one" id="phoneOne" class="input-res"
-            formControlName="phoneOne">
-          <br>
-          <input type="checkbox" formControlName="notificationOne" />
-          <br>
-          <input type="number" placeholder="phone number two" id="phoneTwo" class="input-res"
-            formControlName="phoneTwo">
-          <br>
 
-          <input type="checkbox" formControlName="notificationTwo" />
+          <div class="form-check-inline">
+            <input type="checkbox" class="form-check-input" id="noteOne" formControlName="notificationOne" />
+            <input type="number" class="input-res form-control  form-control-sm" id="phoneOne" formControlName="phoneOne"
+              placeholder="phone number one" required>
+            <div
+              *ngIf="appform.controls['phoneOne'].invalid && (appform.controls['phoneOne'].dirty || appform.controls['phoneOne'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="appform.controls['phoneOne'].errors.required">
+                Atleast one Phone Number is required
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="form-check-inline">
+            <input type="checkbox" class="form-check-input" id="noteTwo" formControlName="notificationTwo" />
+            <input type="number" class="input-res form-control  form-control-sm" id="phoneTwo" formControlName="phoneTwo"
+              placeholder="phone number two" required>
+          </div>
         </div>
         <div class="col-md-6">
           <p> Stuur de bewoner een uitnodiging om zelf de voorschouw uit te voeren. </p>
         </div>
       </div>
     </fieldset>
-    <button type="submit">Submit</button>
+    <div class="row">
+      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <button type="button" class="btn btn-light" (click)="activeModal.close()">Cancel</button>
+        <button type="submit" class="btn btn-success" [disabled]="appform.invalid">Planned</button>
+      </div>
+    </div>
   </form>
 </div>
