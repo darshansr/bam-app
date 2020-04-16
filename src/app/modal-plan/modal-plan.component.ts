@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppointmentService } from '../appointment.service';
 import { v1 as uuidv1 } from 'uuid';
 import * as moment from 'moment';
-import { SharedService } from '../shared-service';
+import { MomentPipe } from '../moment-pipe';
 
 @Component({
   templateUrl: './modal-plan.component.html',
@@ -14,20 +14,13 @@ export class ModalPlanComponent {
 
   @Input() type: string;
 
-  appointmentDate: NgbDateStruct;
-  startTime: string;
-  endTime: string;
-  planDate: Date = new Date();
-  today: string;
-  closeResult: string;
   hourList = [];
   minuteList = [];
   appform: FormGroup;
-
   formBind: {};
   modalData: any;
 
-  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal, private formBuilder: FormBuilder, private appService: AppointmentService, private sharedService: SharedService) {
+  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal,private formBuilder: FormBuilder, private appService: AppointmentService, private momentService: MomentPipe) {
     for (let h = 0; h < 24; h++) {
       this.hourList.push(h);
     }
@@ -39,10 +32,10 @@ export class ModalPlanComponent {
   ngOnInit(): void {
     this.appform = this.formBuilder.group({
       id: [''],
-      appointmentDate: [],
-      vanHH: [moment().format('hh'), Validators.required],
+      appointmentDate: [moment().format('DD-MM-YYYY')],
+      vanHH: [moment().format('HH'), Validators.required],
       vanMM: [moment().format('mm'), Validators.required],
-      totHH: [moment().format('hh'), Validators.required],
+      totHH: [moment().format('HH'), Validators.required],
       totMM: [moment().format('mm'), Validators.required],
       phoneOne: [''],
       phoneTwo: [''],
@@ -51,36 +44,25 @@ export class ModalPlanComponent {
     });
 
     if (this.type !== 'create') {
-      console.log('cchecking conditon ', this.type)
       this.appService.getAppointmentDetailById(this.type).subscribe(data => {
-        this.modalData = this.sharedService.formateTime([data])[0];
-        this.appform.patchValue(this.createFormData(this.modalData))
+        this.appform.patchValue(this.createFormData(data))
       });
     }
   }
 
-  createFormData(data) {
-    let check = moment(data.dateProperty.planDate, 'DD-MM-YYYY');
-    let startTime = moment(data.dateProperty.startTime, 'hh:mm');
-    let endTime = moment(data.dateProperty.startTime, 'hh:mm');
+  createFormData=(data)=> {
+    let appointmentDate=this.momentService.transform(data.startTime,'DD-MM-YYYY')
+    let startTime = this.momentService.transform(data.startTime,'HH:mm')
+    let endTime = this.momentService.transform(data.endTime,'HH:mm')
 
-    let mm = parseInt(check.format('M'));
-    let dd = parseInt(check.format('D'));
-    let yyyy = parseInt(check.format('YYYY'));
-    let vanHH = parseInt(startTime.format('hh'));
-    let vanMM = parseInt(startTime.format('mm'));
-    let totHH = parseInt(endTime.format('hh'));
-    let totMM = parseInt(endTime.format('mm'));
-
-    this.appointmentDate = {
-      year: yyyy,
-      month: mm,
-      day: dd
-    }
+    let vanHH = startTime.split(':')[0];
+    let vanMM = startTime.split(':')[1]
+    let totHH = endTime.split(':')[0];
+    let totMM = endTime.split(':')[1];
 
     return this.formBind = {
       id: data.id,
-      appointmentDate: this.appointmentDate,
+      appointmentDate: appointmentDate,
       vanHH: vanHH,
       vanMM: vanMM,
       totHH: totHH,
@@ -92,7 +74,7 @@ export class ModalPlanComponent {
     }
   }
 
-  setTime(event: Event) {
+  setTime=(event: Event) =>{
     let str = (<HTMLInputElement>event.target).id
     switch (str) {
       case 'van-hour-inc':
@@ -137,8 +119,8 @@ export class ModalPlanComponent {
   getIncDecHM = (timeComponent, timeElements, timeOperation) => {
     let id = timeComponent.substring(0, timeComponent.length - 4);
     let formcontrolname = document.getElementById(id).getAttribute('formcontrolname');
-    let HourMin = parseInt(this.appform.get(formcontrolname).value);
-    let currentPos = timeElements.indexOf(HourMin);
+    let hourMin = parseInt(this.appform.get(formcontrolname).value);
+    let currentPos = timeElements.indexOf(hourMin);
     let newPos = 0;
     switch (timeOperation) {
       case 'inc':
@@ -147,7 +129,7 @@ export class ModalPlanComponent {
           newPos = currentPos + 1;
         }
         this.appform.patchValue({
-          [formcontrolname]: newPos
+          [formcontrolname]: ('0'+ newPos).slice(-2)
         });
         this.appform.get(formcontrolname).value
         if (formcontrolname === 'vanHH' || formcontrolname === 'totHH') {
@@ -162,7 +144,7 @@ export class ModalPlanComponent {
           newPos = currentPos - 1;
         }
         this.appform.patchValue({
-          [formcontrolname]: newPos
+          [formcontrolname]: ('0'+ newPos).slice(-2)
         });
         this.appform.get(formcontrolname).value
         if (formcontrolname === 'vanHH' || formcontrolname === 'totHH') {
@@ -175,7 +157,7 @@ export class ModalPlanComponent {
     }
   }
 
-  hourValidate(formcontrolname) {
+  hourValidate=(formcontrolname)=> {
     let hour = {
       vanHH: Number,
       totHH: Number
@@ -193,16 +175,12 @@ export class ModalPlanComponent {
     }
   }
 
-  onSubmit(data) {
+  onSubmit=(data) =>{
     if (this.type === "create") {
-      let startTime = data.appointmentDate.day + "-" + data.appointmentDate.month + "-" + data.appointmentDate.year + " " + data.vanHH + ":" + data.vanMM
-      let endTime = data.appointmentDate.day + "-" + data.appointmentDate.month + "-" + data.appointmentDate.year + " " + data.totHH + ":" + data.totMM
-      let start = moment(startTime, 'DD-MM-YYYY hh:mm');
-      let end = moment(endTime, 'DD-MM-YYYY hh:mm');
       let finalObject = {
         id: uuidv1(),
-        startTime: start.toISOString(),
-        endTime: end.toISOString(),
+        startTime: this.momentService.formateStartEndTime(data).start.toISOString(),
+        endTime: this.momentService.formateStartEndTime(data).end.toISOString(),
         phoneOne: data.phoneOne,
         phoneTwo: data.phoneTwo,
         notificationOne: data.notificationOne,
@@ -213,24 +191,17 @@ export class ModalPlanComponent {
       this.activeModal.close();
     } else {
       console.log("updated object", data)
-      let startTime = data.appointmentDate.day + "-" + data.appointmentDate.month + "-" + data.appointmentDate.year + " " + data.vanHH + ":" + data.vanMM
-      let endTime = data.appointmentDate.day + "-" + data.appointmentDate.month + "-" + data.appointmentDate.year + " " + data.totHH + ":" + data.totMM
-      let start = moment(startTime, 'DD-MM-YYYY hh:mm');
-      let end = moment(endTime, 'DD-MM-YYYY hh:mm');
       let updatedObject = {
         id: data.id,
-        startTime: start.toISOString(),
-        endTime: end.toISOString(),
+        startTime: this.momentService.formateStartEndTime(data).start.toISOString(),
+        endTime: this.momentService.formateStartEndTime(data).end.toISOString(),
         phoneOne: data.phoneOne,
         phoneTwo: data.phoneTwo,
         notificationOne: data.notificationOne,
         notificationTwo: data.notificationTwo
       }
-
       alert("updated object is " + JSON.stringify(updatedObject))
       this.activeModal.close();
     }
   }
-
-
 }

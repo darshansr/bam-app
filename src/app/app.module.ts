@@ -13,7 +13,8 @@ import { AppointmentService } from './appointment.service';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule }    from '@angular/common/http';
-import { SharedService } from './shared-service';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MomentPipe } from './moment-pipe';
 
 
 const appRoutes: Routes = [
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ModalPlanComponent,
-    EmmenWonDsvComponent, ProjectMenuComponent
+    EmmenWonDsvComponent, ProjectMenuComponent,MomentPipe
 
   ],
   imports: [
@@ -41,12 +42,13 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BsDatepickerModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [AppointmentService, DatePipe,HttpClient,SharedService],
+  providers: [AppointmentService,DatePipe,HttpClient,MomentPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

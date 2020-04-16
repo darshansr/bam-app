@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { AppointmentService, Appointment } from '../appointment.service';
 import { ModalPlanComponent } from '../modal-plan/modal-plan.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SharedService } from '../shared-service';
 import * as moment from 'moment';
 
 @Component({
@@ -13,9 +12,9 @@ import * as moment from 'moment';
 export class EmmenWonDsvComponent {
   @Input() appointment: Appointment[];
   moment=moment;
-  constructor(private modalService: NgbModal, private appService: AppointmentService, private sharedService: SharedService) {
+  constructor(private modalService: NgbModal, private appService: AppointmentService) {
     this.appService.getAppointmentDetails().subscribe(data => {
-      this.appointment = this.sharedService.formateTime(data);
+      this.appointment = data;
     });
   }
 
@@ -24,7 +23,7 @@ export class EmmenWonDsvComponent {
   }
 
   open(id: string) {
-    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'xl',centered:true });
     modalRef.componentInstance.type = id;
   }
 }
