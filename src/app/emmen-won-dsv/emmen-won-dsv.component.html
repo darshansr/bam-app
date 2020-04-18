@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <!-- Example row of columns -->
     <div class="row row-planning" *ngFor="let val of appointment">
-        <div class="col-lg-3 col-md-3 ">
+        <div class="col-3 col-s-3 ">
             <h3>Planning:</h3>
         </div>
-        <div class="col-lg-3 col-md-3 ">
+        <div class="col-3 col-s-3 ">
             <h3>-Voorschow door bewoner</h3>
         </div>
-        <div class="col-lg-6 col-md-3 ">
+        <div class="col-6 col-s-3 ">
             <div class="row">
                 <div class="col">{{val.startTime | moment:'DD-MM-YYYY' }} van {{val.startTime |moment:'HH:mm' }} uur tot
                     {{val.endTime | moment:'HH:mm'}} uur <img src="../../assets/pencil-icon.svg" (click)="open(val.id)">

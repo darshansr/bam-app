@@ -15,6 +15,13 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule }    from '@angular/common/http';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MomentPipe } from './moment-pipe';
+import { DatePickerComponent } from './modal-plan/date-picker/date-picker.component';
+import { NotificationAreaComponent } from './modal-plan/notification-area/notification-area.component';
+import { StartEndTimeComponent } from './modal-plan/start-end-time/start-end-time.component';
+import { StartComponent } from './modal-plan/start-end-time/start/start.component';
+import { UpArrowIconComponent } from './modal-plan/start-end-time/up-arrow-icon/up-arrow-icon.component';
+import { DownArrowIconComponent } from './modal-plan/start-end-time/down-arrow-icon/down-arrow-icon.component';
+import { InputBoxComponent } from './modal-plan/start-end-time/input-box/input-box.component';
 
 
 const appRoutes: Routes = [
@@ -31,8 +38,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ModalPlanComponent,
-    EmmenWonDsvComponent, ProjectMenuComponent,MomentPipe
-
+    EmmenWonDsvComponent, ProjectMenuComponent,MomentPipe, DatePickerComponent, NotificationAreaComponent, StartEndTimeComponent, StartComponent, UpArrowIconComponent, DownArrowIconComponent, InputBoxComponent
   ],
   imports: [
     BrowserModule,

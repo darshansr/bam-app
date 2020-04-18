@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AppointmentService } from '../appointment.service';
 import { v1 as uuidv1 } from 'uuid';
-import * as moment from 'moment';
 import { MomentPipe } from '../moment-pipe';
+import { NotificationAreaComponent } from './notification-area/notification-area.component';
+import { InputBoxComponent } from './start-end-time/input-box/input-box.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 @Component({
   templateUrl: './modal-plan.component.html',
@@ -13,6 +15,9 @@ import { MomentPipe } from '../moment-pipe';
 export class ModalPlanComponent {
 
   @Input() type: string;
+  @ViewChild(NotificationAreaComponent) notificationComponent: NotificationAreaComponent;
+  @ViewChild(InputBoxComponent) inputBoxComponent: InputBoxComponent;
+  @ViewChild(DatePickerComponent) datePickerComponent: DatePickerComponent;
 
   hourList = [];
   minuteList = [];
@@ -20,7 +25,7 @@ export class ModalPlanComponent {
   formBind: {};
   modalData: any;
   today =new Date();
-  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal,private formBuilder: FormBuilder, private appService: AppointmentService, private momentService: MomentPipe) {
+  constructor(private cd: ChangeDetectorRef,public activeModal: NgbActiveModal, private modalService: NgbModal,private formBuilder: FormBuilder, private appService: AppointmentService, private momentService: MomentPipe) {
     for (let h = 0; h < 24; h++) {
       this.hourList.push(h);
     }
@@ -32,22 +37,28 @@ export class ModalPlanComponent {
   ngOnInit(): void {
     this.appform = this.formBuilder.group({
       id: [''],
-      appointmentDate: [moment().format('DD-MM-YYYY'),Validators.required],
-      vanHH: [moment().format('HH'), Validators.required],
-      vanMM: [moment().format('mm'), Validators.required],
-      totHH: [moment().format('HH'), Validators.required],
-      totMM: [moment().format('mm'), Validators.required],
-      phoneOne: ['', Validators.required],
-      phoneTwo: [''],
-      notificationOne: [true,Validators.required],
-      notificationTwo: [false]
     });
+  
+    // this.notificationComponent.appform.setParent(this.appform);
+    // this.datePickerComponent.appform.setParent(this.appform)
+    // this.inputBoxComponent.appform.setParent(this.appform)
 
     if (this.type !== 'create') {
       this.appService.getAppointmentDetailById(this.type).subscribe(data => {
-        this.appform.patchValue(this.createFormData(data))
+       // this.appform.patchValue(this.createFormData(data))
       });
     }
+  }
+
+  ngAfterViewInit() {
+    this.appform.addControl('notificationForm', this.notificationComponent.noteForm);
+  
+    this.appform.addControl('datePicker',this.datePickerComponent.datePicker);
+   // this.appform.addControl('inputBox',this.inputBoxComponent.timeForm);
+    this.notificationComponent.noteForm.setParent(this.appform);
+    this.datePickerComponent.datePicker.setParent(this.appform)
+    this.cd.detectChanges();
+   // this.inputBoxComponent.timeForm.setParent(this.appform)
   }
   // dateValidator(format){
   //   console.log('format');
@@ -69,19 +80,19 @@ export class ModalPlanComponent {
     let vanMM = startTime.split(':')[1]
     let totHH = endTime.split(':')[0];
     let totMM = endTime.split(':')[1];
-
-    return this.formBind = {
-      id: data.id,
-      appointmentDate: appointmentDate,
-      vanHH: vanHH,
-      vanMM: vanMM,
-      totHH: totHH,
-      totMM: totMM,
-      phoneOne: data.phoneOne,
-      phoneTwo: data.phoneTwo,
-      notificationOne: data.notificationOne,
-      notificationTwo: data.notificationTwo
-    }
+return;
+    // return this.formBind = {
+    //   id: data.id,
+    //   appointmentDate: appointmentDate,
+    //   vanHH: vanHH,
+    //   vanMM: vanMM,
+    //   totHH: totHH,
+    //   totMM: totMM,
+    //   phoneOne: data.phoneOne,
+    //   phoneTwo: data.phoneTwo,
+    //   notificationOne: data.notificationOne,
+    //   notificationTwo: data.notificationTwo
+    // }
   }
 
   setTime=(event: Event) =>{
@@ -135,15 +146,7 @@ export class ModalPlanComponent {
     switch (timeOperation) {
       case 'inc':
         if (currentPos !== (timeElements.length - 1)) {
-          console.log(currentPos);
           newPos = currentPos + 1;
-        }
-        this.appform.patchValue({
-          [formcontrolname]: ('0'+ newPos).slice(-2)
-        });
-        this.appform.get(formcontrolname).value
-        if (formcontrolname === 'vanHH' || formcontrolname === 'totHH') {
-          this.hourValidate(formcontrolname)
         }
         return timeElements[newPos];
 
@@ -153,37 +156,29 @@ export class ModalPlanComponent {
         } else {
           newPos = currentPos - 1;
         }
-        this.appform.patchValue({
-          [formcontrolname]: ('0'+ newPos).slice(-2)
-        });
-        this.appform.get(formcontrolname).value
-        if (formcontrolname === 'vanHH' || formcontrolname === 'totHH') {
-          this.hourValidate(formcontrolname)
-        }
         return timeElements[newPos];
-
       default:
         return;
     }
   }
 
-  hourValidate=(formcontrolname)=> {
-    let hour = {
-      vanHH: Number,
-      totHH: Number
-    }
-    if (formcontrolname === "vanHH") {
-      hour.totHH = this.appform.get("totHH").value;
-      hour.vanHH = this.appform.get(formcontrolname).value;
-    } else {
-      hour.vanHH = this.appform.get("vanHH").value;
-      hour.totHH = this.appform.get(formcontrolname).value;
-    }
-    if (hour.vanHH > hour.totHH) {
-      console.log('endTime must be greater than startTime ')
-      return true;
-    }
-  }
+  // hourValidate=(formcontrolname)=> {
+  //   let hour = {
+  //     vanHH: Number,
+  //     totHH: Number
+  //   }
+  //   if (formcontrolname === "vanHH") {
+  //     hour.totHH = this.appform.get("totHH").value;
+  //     hour.vanHH = this.appform.get(formcontrolname).value;
+  //   } else {
+  //     hour.vanHH = this.appform.get("vanHH").value;
+  //     hour.totHH = this.appform.get(formcontrolname).value;
+  //   }
+  //   if (hour.vanHH > hour.totHH) {
+  //     console.log('endTime must be greater than startTime ')
+  //     return true;
+  //   }
+  // }
 
   onSubmit=(data) =>{
     if (this.type === "create") {
@@ -197,7 +192,8 @@ export class ModalPlanComponent {
         notificationTwo: data.notificationTwo
       }
       this.appService.createAppointment(finalObject);
-      alert("Created object is " + JSON.stringify(finalObject))
+      alert("final object "+JSON.stringify(this.appform.value));
+      //alert("Created object is " + JSON.stringify(finalObject))
       this.activeModal.close();
     } else {
       console.log("updated object", data)

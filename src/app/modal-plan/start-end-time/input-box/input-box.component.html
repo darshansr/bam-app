@@ -1,0 +1,40 @@
+<!-- <ng-container *ngIf="inputBox.type==='number'; then inputTag else labelTag"></ng-container>
+
+<ng-template #labelTag><label for="{{inputBox.type}}">{{inputBox.value}}</label></ng-template>
+<ng-template #inputTag>
+    <div [formGroup]="timeForm">
+        <input style="
+    width: 35px;
+    text-align: center;" type="{{inputBox.type}}" id="{{inputBox.id}}" class="{{inputBox.class}}"
+            formControlName="{{inputBox.formControlName}}">
+    </div>
+</ng-template> -->
+
+    <div [formGroup]="timeForm">
+    <td style="
+padding-right: 5px;">van:</td>
+    <td>
+        <input style="
+width: 35px;
+text-align: center;" type="number" id="van-hour" class="input-tip" formControlName="vanHH">
+    </td>
+    <td>:</td>
+    <td>
+        <input style="
+width: 35px;
+text-align: center;" type="number" id="van-min" class="input-tip" formControlName="vanMM">
+    </td>
+    <td style="padding-left:25px;
+padding-right: 5px;">tot:</td>
+    <td>
+        <input style="
+width: 35px;
+text-align: center;" type="number" id="tot-hour" class="input-tip" formControlName="totHH">
+    </td>
+    <td>:</td>
+    <td>
+        <input style="
+width: 35px;
+text-align: center;" type="number" id="tot-min" class="input-tip" formControlName="totMM">
+    </td>
+</div>

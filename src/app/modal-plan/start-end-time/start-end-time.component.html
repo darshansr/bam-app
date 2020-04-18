@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-2 col-lg-2">
+        <label for="time" style="
+        margin-top: 25px;">Tijdstip:</label>
+    </div>
+    <div class="col-md-4 col-lg-4" >
+        <table >
+            <tbody>
+                <tr>
+                    <div>
+                        <ng-template ngFor let-uparrow [ngForOf]="uparrows" (timeIncDec)="setTime($event)">
+                            <td>
+                                <up-arrow-icon [uparrow]="uparrow" > </up-arrow-icon>
+                            </td>
+                        </ng-template>
+                    </div>
+                </tr>
+                <!-- <tr>
+                    <ng-template ngFor let-inputBox [ngForOf]="inputitem">
+                        <td>
+                            <input-box [inputBox]="inputBox"> </input-box>
+                        </td>
+                    </ng-template>
+                </tr> -->
+                <tr>
+                    <input-box> </input-box>
+                </tr>
+                <tr>
+                    <div>
+                        <ng-template ngFor let-downarrow [ngForOf]="downarrows" (timeIncDec)="setTime($event)">
+                            <td>
+                                <down-arrow-icon [downarrow]="downarrow" > </down-arrow-icon>
+                            </td>
+                        </ng-template>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6 col-lg-6">
+    </div>
+</div>

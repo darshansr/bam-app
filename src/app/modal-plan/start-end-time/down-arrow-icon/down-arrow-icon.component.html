@@ -1,0 +1,10 @@
+<ng-container *ngIf="downarrow.id!=='separator'; then imgTag else separatorTag"></ng-container>
+
+<ng-template #separatorTag ></ng-template>
+<ng-template #imgTag>
+<img  id='{{downarrow.id}}' [ngStyle]="myStyle(downarrow.val)" title="{{downarrow.title}}"
+        src="../../assets/{{downarrow.src}}-arrow-icon.svg" (click)="onArrowClick(downarrow.id)">
+</ng-template>
+
+<!-- <img (click)="setTime($event)" id='{{downarrow.id}}' style="margin-left: 8px" title="{{downarrow.title}}"
+src="../../assets/{{downarrow.src}}-arrow-icon.svg"> -->

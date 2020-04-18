@@ -1,0 +1,40 @@
+<div [formGroup]="noteForm" class="row">
+    <div class="col-6 col-s-6">
+        <p>Goedendag Peter de Vries,</p>
+        <p>De werkzaamheden in uw woning zijn bijna afgerond.
+         
+            de woning te controleren of alles naar tevredenheid is uitgevoerd.</p>
+        <p> Tijdens de afspraak kunt u in de woning onze
+            werkzaamheden controleren met uw mobiele telefoon:
+            <link naar mobiele website>
+        </p>
+        <p> Wilt u een andere mobiele telefoon voor de controle gebruiken? Stuur dit
+            bericht dan door.</p>
+        <p> Wij willen u vragen niet op deze berichten te reageren. </p>
+        <p>Met vriendelijke groet, uw uitvoerder</p>
+        <p>Verstuur het Bericht naar.
+            Ja, elk nummer is van een bewoner van dit adres.</p>
+
+        <div class="form-check-inline">
+            <input type="checkbox" class="form-check-input" id="noteOne" formControlName="notificationOne" />
+            <input type="number" class="input-res form-control  form-control-sm" id="phoneOne"
+                formControlName="phoneOne" placeholder="phone number one" required>
+            <div *ngIf="noteForm.controls['phoneOne'].invalid && (noteForm.controls['phoneOne'].dirty || noteForm.controls['phoneOne'].touched)"
+                class="alert alert-danger">
+                <div *ngIf="noteForm.controls['phoneOne'].errors.required">
+                    Atleast one Phone Number is required
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="form-check-inline">
+            <input type="checkbox" class="form-check-input" id="noteTwo" formControlName="notificationTwo" />
+            <input type="number" class="form-control  form-control-sm" id="phoneTwo"
+                formControlName="phoneTwo" placeholder="phone number two" required>
+        </div>
+    </div>
+    <div class="col-6 col-s-6">
+        <p> Stuur de bewoner een uitnodiging om zelf de voorschouw uit te voeren. </p>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div [formGroup]="datePicker" class="row">
+    <div class="col-1 col-s-1">
+        <label for="date">Datum:</label>
+    </div>
+    <div class="col-4 col-s-4" >
+        <input type="text" class="form-control form-control-sm" id="date" formControlName="appointmentDate" bsDatepicker #datepickerYMD="bsDatepicker" required
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [daysDisabled]="[6,0]"
+            [minDate]="today" required>
+        <div *ngIf="datePicker.controls['appointmentDate'].invalid && (datePicker.controls['appointmentDate'].dirty || datePicker.controls['appointmentDate'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="datePicker.controls['appointmentDate'].errors.required">
+                Date is required
+            </div>
+        </div>
+    </div>
+    <div class="col-1 col-s-1">
+        <img src="../../assets/calendar-icon.svg" class="float-left rounded" alt="Cinque Terre" width="20" height="24"
+            (click)="datepickerYMD.toggle()" [attr.aria-expanded]="datepickerYMD.isOpen">
+    </div>
+    <div class="col-6 col-s-6">
+        <p>Plan een datum en tijdstip wanneer de bewoner zijn woning kan voorschouwen.</p>
+    </div>
+</div>

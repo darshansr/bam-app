@@ -12,17 +12,20 @@ import * as moment from 'moment';
 export class EmmenWonDsvComponent {
   @Input() appointment: Appointment[];
   moment=moment;
+
   constructor(private modalService: NgbModal, private appService: AppointmentService) {
-    this.appService.getAppointmentDetails().subscribe(data => {
-      this.appointment = data;
+  }
+  ngOnInit():void {
+    this.getAppointments()
+  }
+
+  getAppointments(): void {
+    this.appService.getAppointmentDetails().subscribe(appointment => {
+      this.appointment = appointment;
     });
   }
 
-  ngOnInit() {
-   
-  }
-
-  open(id: string) {
+  open(id: string):void {
     const modalRef = this.modalService.open(ModalPlanComponent, { size: 'xl',centered:true });
     modalRef.componentInstance.type = id;
   }
