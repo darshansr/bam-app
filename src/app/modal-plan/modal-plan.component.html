@@ -152,7 +152,7 @@
 
           <div class="form-check-inline">
             <input type="checkbox" class="form-check-input" id="noteOne" formControlName="notificationOne" />
-            <input type="number" class="input-res form-control  form-control-sm" id="phoneOne" formControlName="phoneOne"
+            <input type="text" class="input-res form-control  form-control-sm" id="phoneOne" formControlName="phoneOne"
               placeholder="phone number one" required>
             <div
               *ngIf="appform.controls['phoneOne'].invalid && (appform.controls['phoneOne'].dirty || appform.controls['phoneOne'].touched)"
@@ -166,7 +166,7 @@
           <br>
           <div class="form-check-inline">
             <input type="checkbox" class="form-check-input" id="noteTwo" formControlName="notificationTwo" />
-            <input type="number" class="input-res form-control  form-control-sm" id="phoneTwo" formControlName="phoneTwo"
+            <input type="text" class="input-res form-control  form-control-sm" id="phoneTwo" formControlName="phoneTwo"
               placeholder="phone number two" required>
           </div>
         </div>

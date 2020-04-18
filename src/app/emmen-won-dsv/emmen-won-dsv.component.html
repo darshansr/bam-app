@@ -10,7 +10,7 @@
         <div class="col-lg-6 col-md-3 ">
             <div class="row">
                 <div class="col">{{val.startTime | moment:'DD-MM-YYYY' }} van {{val.startTime |moment:'HH:mm' }} uur tot
-                    {{val.endTime | moment:'HH:mm'}} uur <img src="../../assets/pencil-icon.svg" (click)="open(val.id)">
+                    {{val.endTime | moment:'HH:mm'}} uur <img src="../../assets/pencil-icon.svg" (click)="open(val._id)">
                 </div>
                 <div class="col"> <img src="../../assets/bell-icon.svg"
                         [ngStyle]="{'background-color':val.startTime > moment().format('DD-MM-YYYY')  ? 'green' : 'grey' }">

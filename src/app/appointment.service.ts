@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { of, Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
+
 export interface Appointment {
-    id: string,
+    _id: string,
     startTime: string,
     endTime: string,
     phoneOne: string,
@@ -16,88 +17,77 @@ export interface Appointment {
 
 @Injectable({ providedIn: 'root' })
 export class AppointmentService {
-    baseurl = '';
+    baseurl = "https://fierce-earth-17956.herokuapp.com/appointment";
 
-    fakeData = [{
-        id: "xyz",
-        startTime: "2020-04-16T14:00:13.141Z",
-        endTime: "2020-04-16T14:00:13.141Z",
-        phoneOne: "1234",
-        phoneTwo: "13423",
-        notificationOne: true,
-        notificationTwo: true
-    },
-    {
-        id: "abc",
-        startTime: "2020-04-13T14:00:13.141Z",
-        endTime: "2020-04-13T14:00:13.141Z",
-        phoneOne: "31289323",
-        phoneTwo: "314213423",
-        notificationOne: true,
-        notificationTwo: true
-    }
-    ]
+    data: Appointment[];
 
     constructor(private http: HttpClient) { }
     httpOptions = {
         headers: new HttpHeaders({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
         })
     }
 
     // Error handling
     errorHandl(error) {
-        let errorMessage = '';
+        console.log(error);
+        let errorMessage = 'nor found';
         if (error.error instanceof ErrorEvent) {
             // Get client-side error
-            errorMessage = error.error.message;
+            errorMessage = error.error;
         } else {
             // Get server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            errorMessage = `Error Code: ${error}\nMessage: ${error.message}`;
         }
         console.log(errorMessage);
         return throwError(errorMessage);
     }
 
-    // POST Intial Appointment
-    createAppointment(data): Observable<Appointment[]> {
-        this.fakeData.push(data);
-
-        return;
-        // return this.http.post<Appointment>(this.baseurl + '/Appointmenttracking/', JSON.stringify(data), this.httpOptions)
-        //     .pipe(
-        //         retry(1),
-        //         catchError(this.errorHandl)
-        //     )
+    // POST 
+     createAppointment(data:Appointment):void {
+        this.http.post<Appointment>(this.baseurl,data, this.httpOptions)
+        .subscribe({
+            next: data =>data,
+            error: error => console.error('There was an error!', error)
+        })
     }
 
     // GET
-    getAppointmentDetailById(id): Observable<Appointment> {
-        return of(this.fakeData.find(element => element.id === id))
-
-        // return this.http.get<Appointment[]>(this.baseurl + '/Appointmenttracking/' + id)
-        //     .pipe(
-        //         retry(1),
-        //         catchError(this.errorHandl)
-        //     )
+    getAppointmentDetailById(_id:string): Observable<Appointment> {
+        return this.http.get<Appointment>(this.baseurl + '/' + _id)
+            .pipe(
+                map(data => {
+                    return data;
+                  }), catchError( error => {
+                    return throwError( 'No Appoinement for this time',error );
+                  })
+            )
     }
 
     // GET All
     getAppointmentDetails(): Observable<Appointment[]> {
-        return of(this.fakeData);
-        // return this.http.get<Appointment>(this.baseurl + '/Appointmenttracking/')
-        //     .pipe(
-        //         retry(1),
-        //         catchError(this.errorHandl)
-        //     )
+       return this.http.get<Appointment[]>(this.baseurl)
+       .pipe(
+            map(data => {
+                return data;
+              }), catchError( error => {
+                return throwError( 'No Appoinement for this time',error );
+              })
+        )     
     }
 
     // Patch
-    updateAppointmentById(id, data): Observable<Appointment[]> {
-        return this.http.put<Appointment[]>(this.baseurl + '/Appointmenttracking/' + id, JSON.stringify(data), this.httpOptions)
+    updateAppointmentById(_id, data): Observable<Appointment> {
+        console.log(_id,data)
+        return this.http.patch<Appointment>(this.baseurl +'/'+_id, data, this.httpOptions)
             .pipe(
-                retry(1),
-                catchError(this.errorHandl)
+                map(data => {
+                    console.log(data)
+                    return data;
+                  }), catchError( error => {
+                    return throwError( 'No Appoinement for this time',error );
+                  })
             )
     }
 
