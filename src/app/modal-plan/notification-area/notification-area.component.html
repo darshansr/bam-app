@@ -18,7 +18,7 @@
         <div class="form-check-inline">
             <input type="checkbox" class="form-check-input" id="noteOne" formControlName="notificationOne" />
             <input type="number" class="input-res form-control  form-control-sm" id="phoneOne"
-                formControlName="phoneOne" placeholder="phone number one" required>
+                formControlName="phoneOne" placeholder="phone number one">
             <div *ngIf="noteForm.controls['phoneOne'].invalid && (noteForm.controls['phoneOne'].dirty || noteForm.controls['phoneOne'].touched)"
                 class="alert alert-danger">
                 <div *ngIf="noteForm.controls['phoneOne'].errors.required">
@@ -31,7 +31,7 @@
         <div class="form-check-inline">
             <input type="checkbox" class="form-check-input" id="noteTwo" formControlName="notificationTwo" />
             <input type="number" class="form-control  form-control-sm" id="phoneTwo"
-                formControlName="phoneTwo" placeholder="phone number two" required>
+                formControlName="phoneTwo" placeholder="phone number two">
         </div>
     </div>
     <div class="col-6 col-s-6">

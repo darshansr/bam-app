@@ -21,8 +21,6 @@ export class NotificationAreaComponent implements OnInit {
       notificationOne: new FormControl(true,Validators.required),
       notificationTwo: new FormControl(false)
     });
-    console.log(this.parentForm)
-  
   }
 
 

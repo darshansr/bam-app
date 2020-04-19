@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, NgModule } from '@angular/core';
-import { Observable } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -12,31 +10,6 @@ export class StartEndTimeComponent implements OnInit {
   idAttr: string;
   hourList = [];
   minuteList = [];
-
-  // inputitem = [{
-  //   type: 'number',
-  //   id: "van-hour",
-  //   class: "input-tip",
-  //   formControlName: "vanHH"
-  // },
-  // {
-  //   type: 'number',
-  //   id: "van-min",
-  //   class: "input-tip",
-  //   formControlName: "vanMM"
-  // },
-  // {
-  //   type: 'number',
-  //   id: "tot-hour",
-  //   class: "input-tip",
-  //   formControlName: "totHH"
-  // },
-  // {
-  //   type: 'number',
-  //   id: "tot-min",
-  //   class: "input-tip",
-  //   formControlName: "totMM"
-  // }, { type: 'nameLabel', value: 'van:' }, { type: 'nameColon', value: ':' }, { type: 'nameLabel', value: 'tot:' }, { type: 'nameColon', value: ':' }]
 
   uparrows = [{ id: 'separator' },
   { id: 'van-hour-inc', src: 'up', title: 'van-hour-increment', val: 38 },
@@ -68,21 +41,47 @@ export class StartEndTimeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //TODO: event is not working because  of the ng-template
   setTime(idAttr: string) {
     console.log('event value is ', idAttr)
-     // this.onTimeIncDec()
+     // this.onTimeIncDec(timeComponent,timeOperation);
   }
-  // onTimeIncDec
-  // onTimeIncDec = (timeComponent, timeOperation) => {
-  //   let timeElements = [];
-  //   if (timeComponent.includes('hour')) {
-  //     timeElements = this.hourList;
-  //     return this.getIncDecHM(timeComponent, timeElements, timeOperation)
-  //   } else {
-  //     timeElements = this.minuteList;
-  //     return this.getIncDecHM(timeComponent, timeElements, timeOperation)
-  //   }
-  // }
+  //TODO: create service for increment and decrement
+  onTimeIncDec = (timeComponent, timeOperation) => {
+    let timeElements = [];
+    if (timeComponent.includes('hour')) {
+      timeElements = this.hourList;
+      return this.getIncDecHM(timeComponent, timeElements, timeOperation)
+    } else {
+      timeElements = this.minuteList;
+      return this.getIncDecHM(timeComponent, timeElements, timeOperation)
+    }
+  }
+  
+  //TODO: create service for getIncrement or decrement value
+  getIncDecHM = (timeComponent, timeElements, timeOperation) => {
+    let id = timeComponent.substring(0, timeComponent.length - 4);
+    let formcontrolname = document.getElementById(id).getAttribute('formcontrolname');
+    let hourMin = 0;//parseInt(this.appform.get(formcontrolname).value);
+    let currentPos = timeElements.indexOf(hourMin);
+    let newPos = 0;
+    switch (timeOperation) {
+      case 'inc':
+        if (currentPos !== (timeElements.length - 1)) {
+          newPos = currentPos + 1;
+        }
+        return timeElements[newPos];
 
+      case 'dec':
+        if (currentPos === 0) {
+          newPos = timeElements.length - 1;
+        } else {
+          newPos = currentPos - 1;
+        }
+        return timeElements[newPos];
+      default:
+        return;
+    }
+  }
 
 }

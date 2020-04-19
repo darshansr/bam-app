@@ -21,7 +21,7 @@ export class ProjectMenuComponent implements OnInit {
   }
 
   open(type: string) {
-    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'lg' })
+    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'xl' })
     modalRef.componentInstance.type = type;
   }
 

@@ -8,9 +8,9 @@
             <tbody>
                 <tr>
                     <div>
-                        <ng-template ngFor let-uparrow [ngForOf]="uparrows" (timeIncDec)="setTime($event)">
+                        <ng-template ngFor let-uparrow [ngForOf]="uparrows">
                             <td>
-                                <up-arrow-icon [uparrow]="uparrow" > </up-arrow-icon>
+                                <up-arrow-icon [uparrow]="uparrow"  (timeIncDec)="setTime($event)"> </up-arrow-icon>
                             </td>
                         </ng-template>
                     </div>
@@ -27,9 +27,9 @@
                 </tr>
                 <tr>
                     <div>
-                        <ng-template ngFor let-downarrow [ngForOf]="downarrows" (timeIncDec)="setTime($event)">
+                        <ng-template ngFor let-downarrow [ngForOf]="downarrows" >
                             <td>
-                                <down-arrow-icon [downarrow]="downarrow" > </down-arrow-icon>
+                                <down-arrow-icon [downarrow]="downarrow" (timeIncDec)="setTime($event)"> </down-arrow-icon>
                             </td>
                         </ng-template>
                     </div>
