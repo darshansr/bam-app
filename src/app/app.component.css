@@ -2,3 +2,8 @@
     display: initial;
     padding: 0%;
 }
+@media screen and (min-width: 564px)  {
+    .modal-lg .modal-xl {
+       width:766px
+    }
+}

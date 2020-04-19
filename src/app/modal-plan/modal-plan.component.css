@@ -43,7 +43,7 @@
    
 }
 @media screen and (max-width: 1200px)  {
-    .modal-lg {
+    .modal-lg .modal-xl {
         width: 100% !important;
         max-width: calc(100%);
     }

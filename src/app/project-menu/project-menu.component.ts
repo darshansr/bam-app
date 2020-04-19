@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalPlanComponent } from '../modal-plan/modal-plan.component';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-project-menu',
@@ -21,7 +21,7 @@ export class ProjectMenuComponent implements OnInit {
   }
 
   open(type: string) {
-    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'lg' })
+    const modalRef = this.modalService.open(ModalPlanComponent, { size: 'xl' })
     modalRef.componentInstance.type = type;
   }
 

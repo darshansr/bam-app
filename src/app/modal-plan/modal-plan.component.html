@@ -9,23 +9,22 @@
     <fieldset>
       <label>Planning</label>
       <div class="row">
-        <div class="col-md-1 ">
+        <div class="col-md-2 ">
           <label style="
                 margin-top: 5px;">Datum:</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <input class="input-res form-control" name="date" id="date" #datepickerYMD="bsDatepicker" required
             bsDatepicker formControlName="appointmentDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
             [daysDisabled]="[6,0]" [minDate]="today">
 
           <div
             *ngIf="appform.controls['appointmentDate'].invalid && (appform.controls['appointmentDate'].dirty || appform.controls['appointmentDate'].touched)"
-            class="alert">
+            class="alert alert-danger">
             <div *ngIf="appform.controls['appointmentDate'].errors.required">
               Date is required
             </div>
           </div>
-
         </div>
         <div class="col-md-1">
           <img src="../../assets/calendar-icon.svg" class="calendar" (click)="datepickerYMD.toggle()"
@@ -36,11 +35,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-2">
           <label style="
                 margin-top: 25px;">Tijdstip:</label>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
           <table>
             <tbody>
               <tr>
@@ -92,7 +91,6 @@
                 text-align: center;" type="number" id="tot-min" class="input-tip" formControlName="totMM">
                 </td>
               </tr>
-
               <tr>
                 <td></td>
                 <td>
@@ -114,16 +112,18 @@
                     title="decrement Minutes" src="../../assets/down-arrow-icon.svg">
                 </td>
               </tr>
-              <!-- <tr *ngIf="appform.get('vanHH').errors &&
-                        appform.get('vanHH').dirty &&
-                        appform.get('vanHH').errors.validLname"><span style="color:red">endTime must be greater than
-                  startTime </span></tr>
-              <tr *ngIf="appform.get('totHH').errors &&
-                        appform.get('totHH').dirty &&
-                        appform.get('totHH').errors.validLname"><span style="color:red">endTime must be greater than
-                  startTime </span></tr> -->
             </tbody>
           </table>
+          <div
+            *ngIf="appform.controls['vanHH'].invalid && (appform.controls['vanHH'].dirty || appform.controls['vanHH'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="appform.controls['vanHH'].errors.lessThan">Start time should be less than END time</div>
+          </div>
+          <div
+            *ngIf="appform.controls['totHH'].invalid && (appform.controls['totHH'].dirty || appform.controls['totHH'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="appform.controls['totHH'].errors.moreThan">END time should be more than Start time</div>
+          </div>
         </div>
         <div class="col-md-6"></div>
       </div>
@@ -160,6 +160,12 @@
               <div *ngIf="appform.controls['phoneOne'].errors.required">
                 Atleast one Phone Number is required
               </div>
+              <div *ngIf="appform.controls['phoneOne'].errors.minlength">
+                Phone Number requied atleast 8 characters.
+              </div>
+              <div *ngIf="appform.controls['phoneOne'].errors.pattern">
+                Only Numbers are allowed.
+              </div>
             </div>
           </div>
           <br>
@@ -167,7 +173,20 @@
           <div class="form-check-inline">
             <input type="checkbox" class="form-check-input" id="noteTwo" formControlName="notificationTwo" />
             <input type="text" class="input-res form-control  form-control-sm" id="phoneTwo" formControlName="phoneTwo"
-              placeholder="phone number two" required>
+              placeholder="phone number two">
+            <div
+              *ngIf="appform.controls['phoneTwo'].invalid && (appform.controls['phoneTwo'].dirty || appform.controls['phoneTwo'].touched)"
+              class="alert alert-danger">
+              <div *ngIf="appform.controls['phoneTwo'].errors.required">
+                Atleast one Phone Number is required
+              </div>
+              <div *ngIf="appform.controls['phoneTwo'].errors.minlength">
+                Phone Number requied atleast 8 characters.
+              </div>
+              <div *ngIf="appform.controls['phoneTwo'].errors.pattern">
+                Only Numbers are allowed.
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
